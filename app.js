@@ -9,18 +9,18 @@ const app = express();
 
 // Passport Config
 require('./config/passport')(passport);
+require('dotenv').config();
 
-// DB Config
-const db = require('./config/keys').mongoURI;
-
-// Connect to MongoDB
-mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true ,useUnifiedTopology: true}
-  )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log('Connected to MongoDB Atlas');
+})
+.catch((err) => {
+  console.error(err);
+});
 
 // EJS
 app.use(expressLayouts);
